@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.io.*;
+import java.util.Scanner;
 
 public class main {
 
@@ -14,13 +16,33 @@ public class main {
     // ArrayList<String> al = new ArrayList<String>();
     public static void main(String[] args)
     {
-        String s = "baaba";
-        findsubsequences(s, ""); // Calling a function
-        System.out.println(al);
-        //System.out.println(findOccurrence("bb", al));
-        System.out.println("Number of beautiful strings: " + beautifulStringCount());
+        for(int i = 1; i<11; ++i) {
+            try {
+
+//the file to be opened for reading
+                FileInputStream fis = new FileInputStream("src/test_" + i + ".txt");
+                System.out.println("Checking: " + "src/test_" + i + ".txt");
+                Scanner sc = new Scanner(fis);    //file to be scanned
+//returns true if there is another line to read
+                while (sc.hasNextLine()) {
+                    String s = sc.nextLine();
+                    findsubsequences(s, ""); // Calling a function
+                    //System.out.println(al);
+                    //System.out.println(findOccurrence("bb", al));
+                    System.out.println("Number of beautiful strings in " + s + ":" + beautifulStringCount());
+                    System.out.println();      //returns the line that was skipped
+                    al.clear();
+                }
+                sc.close();     //closes the scanner
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
-    
+
     private static Integer beautifulStringCount() {
         int count = 0;
         List<String> countedStr = new ArrayList<>();
@@ -36,7 +58,7 @@ public class main {
             }
             //count += findOccurrence(str, al);
         }
-        
+
         return count;
     }
     //https://www.geeksforgeeks.org/print-subsequences-string/
